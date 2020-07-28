@@ -2,3 +2,15 @@
   text-align: center;
 }
 
+.add-modify-form {
+  width: 100vw;
+}
+
+.form {
+  text-align: center;
+  border: 1px black solid;
+  border-radius: 5px;
+  width: 50%;
+  margin-left: 25vw;
+}
+

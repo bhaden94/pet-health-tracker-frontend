@@ -98,38 +98,42 @@ const AddModifyForm = ({ data }) => {
     };
 
     return (
-        <div>
+        <div className="add-modify-form">
             {isLoading ? (
                 <p>Loading...</p>
             ) : (
-                    <form onSubmit={handleSubmit} autoComplete="off">
-                        <TextField
-                            style={{ width: "50%", textAlign: "left" }}
-                            select
-                            value={type}
-                            label="Workout Type"
-                            required
-                            onChange={(e) => setType(e.target.value)}
-                            margin="normal"
-                        >
-                            {types.map((option, index) => (
-                                <MenuItem key={index} value={option}>
-                                    {option}
-                                </MenuItem>
-                            ))}
-                        </TextField>
+                    <form className="form" onSubmit={handleSubmit} autoComplete="off">
+                        <div>
+                            <TextField
+                                style={{ width: "50%", textAlign: "left" }}
+                                select
+                                value={type}
+                                label="Workout Type"
+                                required
+                                onChange={(e) => setType(e.target.value)}
+                                margin="normal"
+                            >
+                                {types.map((option, index) => (
+                                    <MenuItem key={index} value={option}>
+                                        {option}
+                                    </MenuItem>
+                                ))}
+                            </TextField>
+                        </div>
                         <br />
-                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                            <KeyboardDateTimePicker
-                                style={{ width: "50%" }}
-                                variant="inline"
-                                ampm={false}
-                                label="Date & Time"
-                                value={dateTime}
-                                format="yyyy/MM/dd hh:mm a"
-                                onChange={(e) => setDateTime(e)}
-                            />
-                        </MuiPickersUtilsProvider>
+                        <div>
+                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                <KeyboardDateTimePicker
+                                    style={{ width: "50%" }}
+                                    variant="inline"
+                                    ampm={false}
+                                    label="Date & Time"
+                                    value={dateTime}
+                                    format="yyyy/MM/dd hh:mm a"
+                                    onChange={(e) => setDateTime(e)}
+                                />
+                            </MuiPickersUtilsProvider>
+                        </div>
                         <br />
                         <div>
                             <Typography id="discrete-slider" gutterBottom>
@@ -147,63 +151,73 @@ const AddModifyForm = ({ data }) => {
                             />
                         </div>
                         <br />
-                        <TextField
-                            style={{ width: "50%" }}
-                            type="number"
-                            value={distance}
-                            inputProps={{ step: ".1", min: "0" }}
-                            label="Distance in Miles"
-                            onChange={(e) => setDistance(e.target.value)}
-                        />
+                        <div>
+                            <TextField
+                                style={{ width: "50%" }}
+                                type="number"
+                                value={distance}
+                                inputProps={{ step: ".1", min: "0" }}
+                                label="Distance in Miles"
+                                onChange={(e) => setDistance(e.target.value)}
+                            />
+                        </div>
                         <br />
-                        <TextField
-                            style={{ width: "50%" }}
-                            type="number"
-                            value={duration}
-                            required
-                            inputProps={{ step: "1", min: "0" }}
-                            label="Workout Duration in Minutes"
-                            onChange={(e) => setDuration(e.target.value)}
-                        />
+                        <div>
+                            <TextField
+                                style={{ width: "50%" }}
+                                type="number"
+                                value={duration}
+                                required
+                                inputProps={{ step: "1", min: "0" }}
+                                label="Workout Duration in Minutes"
+                                onChange={(e) => setDuration(e.target.value)}
+                            />
+                        </div>
                         <br />
-                        <TextField
-                            style={{ width: "50%", textAlign: "left" }}
-                            select
-                            value={chosenPet}
-                            label="Pet"
-                            required
-                            onChange={(e) =>
-                                setChosenPet(
-                                    pets.filter((pet) => pet.name === e.target.value)[0]
-                                )
-                            }
-                            margin="normal"
-                        >
-                            {pets.map((option, index) => (
-                                <MenuItem key={index} value={option.name}>
-                                    {option.name}
-                                </MenuItem>
-                            ))}
-                        </TextField>
+                        <div>
+                            <TextField
+                                style={{ width: "50%", textAlign: "left" }}
+                                select
+                                value={chosenPet}
+                                label="Pet"
+                                required
+                                onChange={(e) =>
+                                    setChosenPet(
+                                        pets.filter((pet) => pet.name === e.target.value)[0]
+                                    )
+                                }
+                                margin="normal"
+                            >
+                                {pets.map((option, index) => (
+                                    <MenuItem key={index} value={option.name}>
+                                        {option.name}
+                                    </MenuItem>
+                                ))}
+                            </TextField>
+                        </div>
                         <br />
-                        <TextField
-                            style={{ width: "50%" }}
-                            type="number"
-                            value={calories}
-                            inputProps={{ step: "1", min: "0" }}
-                            label="Calories Burned"
-                            onChange={(e) => setCalories(e.target.value)}
-                        />
+                        <div>
+                            <TextField
+                                style={{ width: "50%" }}
+                                type="number"
+                                value={calories}
+                                inputProps={{ step: "1", min: "0" }}
+                                label="Calories Burned"
+                                onChange={(e) => setCalories(e.target.value)}
+                            />
+                        </div>
                         <br />
-                        <Button
-                            style={{ width: "50%", marginTop: "30px" }}
-                            variant="contained"
-                            color="primary"
-                            endIcon={<Icon>send</Icon>}
-                            type="submit"
-                        >
-                            {btnTxt}
-                        </Button>
+                        <div>
+                            <Button
+                                style={{ width: "50%", marginTop: "30px" }}
+                                variant="contained"
+                                color="primary"
+                                endIcon={<Icon>send</Icon>}
+                                type="submit"
+                            >
+                                {btnTxt}
+                            </Button>
+                        </div>
                     </form>
                 )}
         </div>
