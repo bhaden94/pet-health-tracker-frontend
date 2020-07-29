@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import {
     Typography,
     Slider,
@@ -6,6 +7,9 @@ import {
     Button,
     Icon,
     MenuItem,
+    ListItemIcon,
+    ListItemText,
+    CircularProgress
 } from "@material-ui/core";
 import {
     MuiPickersUtilsProvider,
@@ -13,7 +17,7 @@ import {
 } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 
-const AddModifyForm = ({ data }) => {
+const AddModifyForm = (props) => {
     const [id, setId] = useState();
     const [type, setType] = useState("Walk");
     const [dateTime, setDateTime] = useState(new Date());
@@ -24,8 +28,12 @@ const AddModifyForm = ({ data }) => {
     const [calories, setCalories] = useState();
     const [duration, setDuration] = useState();
 
-    const [btnTxt, setBtnTxt] = useState("Submit");
+    const [btnHeadingTxt, setBtnHeadingTxt] = useState("Add");
+    const [btnIcon, setBtnIcon] = useState("add")
     const [isLoading, setIsLoading] = useState(false);
+    const [postLoading, setPostLoading] = useState(false)
+
+    const location = useLocation();
 
     // marks for slider component
     const marks = [
@@ -46,11 +54,6 @@ const AddModifyForm = ({ data }) => {
     // type of workouts allowed from user
     const types = ["Walk", "Run", "Other"];
 
-    const petsProps = {
-        options: pets,
-        getOptionLabel: (option) => option.name,
-    };
-
     useEffect(() => {
         async function fetchPets() {
             setIsLoading(true);
@@ -60,22 +63,24 @@ const AddModifyForm = ({ data }) => {
             setIsLoading(false);
         }
         fetchPets();
-        if (data) {
-            setId(data.id);
-            setType(data.type);
-            setDateTime(data.dateTime);
-            setIntensity(data.intensity);
-            setDistance(data.distance);
-            setChosenPet(data.chosenPet);
-            setCalories(data.calories);
-            setDuration(data.duration);
-            setBtnTxt("Update");
+        // console.log(location.state.pet, pets)
+        if (location.state) {
+            setId(location.state.id);
+            setType(location.state.type);
+            setDateTime(location.state.date_time);
+            setIntensity(location.state.intensity);
+            setDistance(location.state.distance);
+            setChosenPet(location.state.pet)
+            setCalories(location.state.calories_burned);
+            setDuration(location.state.workout_duration);
+            setBtnHeadingTxt("Update");
+            setBtnIcon("update")
         }
-    }, [data]);
+    }, [props]);
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
-        if (data) {
+        e.preventDefault()
+        if (btnHeadingTxt === "Update") {
             console.log("put request would go here");
         } else {
             const requestOptions = {
@@ -91,9 +96,10 @@ const AddModifyForm = ({ data }) => {
                     workout_duration: duration,
                 }),
             };
+            setPostLoading(true)
             const res = await fetch("/api/add_workout", requestOptions);
             const json = await res.json();
-            console.log(json);
+            setPostLoading(false)
         }
     };
 
@@ -102,123 +108,133 @@ const AddModifyForm = ({ data }) => {
             {isLoading ? (
                 <p>Loading...</p>
             ) : (
-                    <form className="form" onSubmit={handleSubmit} autoComplete="off">
-                        <div>
-                            <TextField
-                                style={{ width: "50%", textAlign: "left" }}
-                                select
-                                value={type}
-                                label="Workout Type"
-                                required
-                                onChange={(e) => setType(e.target.value)}
-                                margin="normal"
-                            >
-                                {types.map((option, index) => (
-                                    <MenuItem key={index} value={option}>
-                                        {option}
-                                    </MenuItem>
-                                ))}
-                            </TextField>
-                        </div>
-                        <br />
-                        <div>
-                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                <KeyboardDateTimePicker
-                                    style={{ width: "50%" }}
-                                    variant="inline"
-                                    ampm={false}
-                                    label="Date & Time"
-                                    value={dateTime}
-                                    format="yyyy/MM/dd hh:mm a"
-                                    onChange={(e) => setDateTime(e)}
+                    <div>
+                        <h1>{btnHeadingTxt} Workout</h1>
+                        <form className="form" onSubmit={handleSubmit} autoComplete="off">
+                            <div className="form-item">
+                                <TextField
+                                    className="pet-input"
+                                    select
+                                    value={chosenPet ? chosenPet.name : ""}
+                                    label="Pet"
+                                    required
+                                    onChange={(e) =>
+                                        setChosenPet(
+                                            pets.filter((pet) => pet.name === e.target.value)[0]
+                                        )
+                                    }
+                                    margin="normal"
+                                >
+                                    {pets.map((option, index) => (
+                                        <MenuItem key={index} value={option.name}>
+                                            <ListItemText primary={option.name} />
+                                            <ListItemIcon>
+                                                <img
+                                                    style={{ width: "40px" }}
+                                                    alt="dog"
+                                                    src="https://post.medicalnewstoday.com/wp-content/uploads/sites/3/2020/02/322868_1100-800x825.jpg"
+                                                />
+                                            </ListItemIcon>
+                                        </MenuItem>
+                                    ))}
+                                </TextField>
+                            </div>
+                            <div className="form-item">
+                                <TextField
+                                    className="type-input"
+                                    select
+                                    value={type}
+                                    label="Workout Type"
+                                    required
+                                    onChange={(e) => setType(e.target.value)}
+                                    margin="normal"
+                                >
+                                    {types.map((option, index) => (
+                                        <MenuItem key={index} value={option}>
+                                            <ListItemText primary={option} />
+                                        </MenuItem>
+                                    ))}
+                                </TextField>
+                            </div>
+                            <br />
+                            <div className="form-item">
+                                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                    <KeyboardDateTimePicker
+                                        className="date-time-input"
+                                        variant="inline"
+                                        ampm={false}
+                                        label="Date & Time"
+                                        value={dateTime}
+                                        format="yyyy/MM/dd hh:mm a"
+                                        onChange={(e) => setDateTime(e)}
+                                    />
+                                </MuiPickersUtilsProvider>
+                            </div>
+                            <br />
+                            <div className="form-item">
+                                <Typography className="slider-input">
+                                    Workout Intensity
+                                </Typography>
+                                <Slider
+                                    className="form-slider"
+                                    value={intensity}
+                                    step={1}
+                                    marks={marks}
+                                    min={1}
+                                    max={3}
+                                    onChange={(e, value) => setIntensity(value)}
                                 />
-                            </MuiPickersUtilsProvider>
-                        </div>
-                        <br />
-                        <div>
-                            <Typography id="discrete-slider" gutterBottom>
-                                Workout Intensity
-                            </Typography>
-                            <Slider
-                                style={{ width: "50%" }}
-                                value={intensity}
-                                aria-label="discrete-slider"
-                                step={1}
-                                marks={marks}
-                                min={1}
-                                max={3}
-                                onChange={(e, value) => setIntensity(value)}
-                            />
-                        </div>
-                        <br />
-                        <div>
-                            <TextField
-                                style={{ width: "50%" }}
-                                type="number"
-                                value={distance}
-                                inputProps={{ step: ".1", min: "0" }}
-                                label="Distance in Miles"
-                                onChange={(e) => setDistance(e.target.value)}
-                            />
-                        </div>
-                        <br />
-                        <div>
-                            <TextField
-                                style={{ width: "50%" }}
-                                type="number"
-                                value={duration}
-                                required
-                                inputProps={{ step: "1", min: "0" }}
-                                label="Workout Duration in Minutes"
-                                onChange={(e) => setDuration(e.target.value)}
-                            />
-                        </div>
-                        <br />
-                        <div>
-                            <TextField
-                                style={{ width: "50%", textAlign: "left" }}
-                                select
-                                value={chosenPet}
-                                label="Pet"
-                                required
-                                onChange={(e) =>
-                                    setChosenPet(
-                                        pets.filter((pet) => pet.name === e.target.value)[0]
-                                    )
-                                }
-                                margin="normal"
-                            >
-                                {pets.map((option, index) => (
-                                    <MenuItem key={index} value={option.name}>
-                                        {option.name}
-                                    </MenuItem>
-                                ))}
-                            </TextField>
-                        </div>
-                        <br />
-                        <div>
-                            <TextField
-                                style={{ width: "50%" }}
-                                type="number"
-                                value={calories}
-                                inputProps={{ step: "1", min: "0" }}
-                                label="Calories Burned"
-                                onChange={(e) => setCalories(e.target.value)}
-                            />
-                        </div>
-                        <br />
-                        <div>
-                            <Button
-                                style={{ width: "50%", marginTop: "30px" }}
-                                variant="contained"
-                                color="primary"
-                                endIcon={<Icon>send</Icon>}
-                                type="submit"
-                            >
-                                {btnTxt}
-                            </Button>
-                        </div>
-                    </form>
+                            </div>
+                            <br />
+                            <div className="distance-input form-item">
+                                <TextField
+                                    type="number"
+                                    value={distance}
+                                    inputProps={{ step: ".1", min: "0" }}
+                                    label="Distance in Miles"
+                                    onChange={(e) => setDistance(e.target.value)}
+                                />
+                            </div>
+                            <br />
+                            <div className="duration-input form-item">
+                                <TextField
+                                    type="number"
+                                    value={duration}
+                                    required
+                                    inputProps={{ step: "1", min: "0" }}
+                                    label="Workout Duration in Minutes"
+                                    onChange={(e) => setDuration(e.target.value)}
+                                />
+                            </div>
+                            <br />
+
+                            <br />
+                            <div className="calorie-input form-item">
+                                <TextField
+                                    type="number"
+                                    value={calories}
+                                    inputProps={{ step: "1", min: "0" }}
+                                    label="Calories Burned"
+                                    onChange={(e) => setCalories(e.target.value)}
+                                />
+                            </div>
+                            <br />
+                            <div className="form-item submit">
+                                <Button
+                                    className="submit-btn"
+                                    variant="contained"
+                                    color="primary"
+                                    size="large"
+                                    disabled={postLoading}
+                                    endIcon={<Icon>{btnIcon}</Icon>}
+                                    type="submit"
+                                >
+                                    {btnHeadingTxt}
+                                </Button>
+                                {postLoading && <CircularProgress size={24} color="primary" className="post-loading" />}
+                            </div>
+                        </form>
+                    </div>
                 )}
         </div>
     );

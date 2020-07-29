@@ -2,15 +2,73 @@
   text-align: center;
 }
 
-.add-modify-form {
-  width: 100vw;
+.form {
+  border-radius: 5px;
+  margin-left: 35vw;
+  margin-right: 35vw;
+  box-shadow: 0px 1px 6px 1px rgba(120,120,120,1);
 }
 
-.form {
-  text-align: center;
-  border: 1px black solid;
-  border-radius: 5px;
+.form-item > div {
+  width: 90%;
+  margin-top: 20px;
+}
+
+.form-slider {
+  width: 90% !important;
+}
+
+.pet-input {
+  text-align: left;
+}
+
+.submit-btn {
   width: 50%;
+} 
+
+.type-input {
+  text-align: left;
+}
+
+.slider-input {
+  text-align: left;
+  margin-left: 5% !important;
+  color: rgb(59, 59, 59);
+  opacity: .87;
+}
+
+.submit {
+  padding-top: 25px;
+  padding-bottom: 50px;
+  flex: auto;
+}
+
+.post-loading {
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  text-align: center;
+}
+
+/* .distance-input {
+
+}
+.duration-input {
+
+}
+.calorie-input {
+
+} */
+
+/* .date-time-input {
+  text-align: left;
+} */
+
+
+.workout-table {
   margin-left: 25vw;
+  margin-right: 25vw;
 }
 
