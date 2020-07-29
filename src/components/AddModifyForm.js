@@ -38,7 +38,8 @@ const AddModifyForm = (props) => {
     const [showAlert, setShowAlert] = useState(false);
 
     const location = useLocation();
-
+    // type of workouts allowed from user
+    const types = ["Walk", "Run", "Other"];
     // marks for slider component
     const marks = [
         {
@@ -55,9 +56,8 @@ const AddModifyForm = (props) => {
         },
     ];
 
-    // type of workouts allowed from user
-    const types = ["Walk", "Run", "Other"];
-
+    // fetch the pets and then check if we are updating a workout or adding a new one
+    // if we are updating an existing then set all the corresponding parts of state
     useEffect(() => {
         async function fetchPets() {
             setIsLoading(true);
@@ -67,7 +67,6 @@ const AddModifyForm = (props) => {
             setIsLoading(false);
         }
         fetchPets();
-        // console.log(location.state.pet, pets)
         if (location.state) {
             setId(location.state.id);
             setType(location.state.type);

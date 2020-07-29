@@ -6,21 +6,23 @@ import {
 import AddModifyForm from './components/AddModifyForm';
 import WorkoutTable from './components/WorkoutTable';
 import Navbar from './components/Navbar';
+import Home from './components/Home'
 import './App.css';
 
 function App() {
   return (
     <Router>
       <div className="App">
-      <Route path="/">
         <Navbar />
-      </Route>
-      <Route path="/add_modify">
-        <AddModifyForm />
-      </Route>
-      <Route path="/workouts">
-        <WorkoutTable />
-      </Route>  
+        <Route exact path="/">
+          <Home />
+        </Route>
+        <Route path="/add_modify">
+          <AddModifyForm />
+        </Route>
+        <Route path="/workouts">
+          <WorkoutTable />
+        </Route>
       </div>
     </Router>
   );

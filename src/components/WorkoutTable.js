@@ -17,7 +17,7 @@ const WorkoutTable = ({ history }) => {
         {
             title: "Date & Time",
             field: "date_time",
-            render: rowData => new Date(rowData.date_time).toLocaleString('en-US', {dateStyle:'medium', timeStyle: 'short'})
+            render: rowData => new Date(rowData.date_time).toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' })
         },
         {
             title: "Pet Name",
@@ -35,7 +35,6 @@ const WorkoutTable = ({ history }) => {
     ]
 
     const editWorkout = (e, rowData) => {
-        console.log(rowData)
         history.push({
             pathname: '/add_modify',
             state: { ...rowData }
@@ -48,7 +47,7 @@ const WorkoutTable = ({ history }) => {
         };
         const res = await fetch(`/api/remove_workout/${rowData.id}`, requestOptions);
         fetchWorkouts()
-        if(res.status === 200) {
+        if (res.status === 200) {
             setShowSucess(true)
         } else {
             setShowAlert(true)
