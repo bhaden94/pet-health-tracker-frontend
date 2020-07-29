@@ -17,7 +17,7 @@ const WorkoutTable = ({ history }) => {
         {
             title: "Date & Time",
             field: "date_time",
-            render: rowData => new Date(rowData.date_time).toLocaleString()
+            render: rowData => new Date(rowData.date_time).toLocaleString('en-US', {dateStyle:'medium', timeStyle: 'short'})
         },
         {
             title: "Pet Name",

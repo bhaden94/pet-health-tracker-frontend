@@ -200,8 +200,7 @@ const AddModifyForm = (props) => {
                             <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                 <KeyboardDateTimePicker
                                     className="date-time-input"
-                                    variant="inline"
-                                    ampm={false}
+                                    ampm={true}
                                     label="Date & Time"
                                     value={dateTime}
                                     format="yyyy/MM/dd hh:mm a"

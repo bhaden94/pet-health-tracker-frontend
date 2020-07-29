@@ -1,5 +1,10 @@
 .App {
   text-align: center;
+  height: 100vh;
+}
+
+.add-modify-form {
+  padding-top: 90px;
 }
 
 .form {
@@ -69,8 +74,13 @@
 
 
 .workout-table {
+  padding-top: 90px;
   margin-left: 20vw;
   margin-right: 20vw;
+}
+
+.link {
+  text-decoration: none;
 }
 
 
