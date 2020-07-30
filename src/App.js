@@ -6,7 +6,7 @@ import {
 import AddModifyForm from './components/AddModifyForm';
 import WorkoutTable from './components/WorkoutTable';
 import Navbar from './components/Navbar';
-import Home from './components/Home'
+import Home from './components/Home/Home'
 import './App.css';
 
 function App() {
