@@ -4,38 +4,27 @@ import {
     MenuItem,
     ListItemIcon,
     ListItemText,
-    CircularProgress
+    CircularProgress,
+    Button,
+    ButtonGroup
 } from "@material-ui/core";
-import LineChart from './LineChart'
+import LineChart from './Charts/LineChart'
+import PieChart from './Charts/PieChart'
+
 
 
 const Home = () => {
     const [pets, setPets] = useState([])
     const [chosenPet, setChosenPet] = useState({})
     const [currentWorkouts, setCurrentWorkouts] = useState()
-    const [graphData, setGraphData] = useState([])
+    const [tab, setTab] = useState(0)
 
     const [isLoading, setIsLoading] = useState(false)
+    const [showLine, setSowLine] = useState(true)
+    const [showTypePie, setShowTypePie] = useState(false)
+    const [showIntensityPie, setShowIntensityPie] = useState(false)
 
-    useEffect(() => {
-        if (currentWorkouts) {
-            const xyData = currentWorkouts.map(workout => {
-                const dateTime = new Date(workout.date_time).toLocaleString('en-US', { dateStyle: 'short', timeStyle: 'short' })
-                return {
-                    x: dateTime,
-                    y: workout.workout_duration
-                }
-            })
-            if (chosenPet) {
-                setGraphData([
-                    {
-                        id: chosenPet.name,
-                        data: xyData
-                    }
-                ])
-            }
-        }
-    }, [currentWorkouts])
+
 
     const fetchWorkouts = async () => {
         if (chosenPet) {
@@ -72,7 +61,7 @@ const Home = () => {
 
     return (
         <div className="home">
-            <h1>Your Dashboard</h1>
+            <h1>Pet Workout Dashboard</h1>
             {isLoading ? <CircularProgress size={50} color="primary" /> : 
             <div>
                 <div className="chart-pet">
@@ -105,7 +94,14 @@ const Home = () => {
                     </TextField>
                 </div>
                 <div className="chart">
-                    <LineChart graphData={graphData} />
+                    <ButtonGroup color="primary" aria-label="outlined primary button group">
+                        <Button>Duration</Button>
+                        <Button>Types</Button>
+                        <Button>Intensity</Button>
+                    </ButtonGroup>
+                    {showLine && <LineChart currentWorkouts={currentWorkouts} />}
+                    {showTypePie && <PieChart currentWorkouts={currentWorkouts} intensityOrType="type" />}
+                    {showIntensityPie && <PieChart currentWorkouts={currentWorkouts} intensityOrType="intensity" />}
                 </div>
             </div>
             }
