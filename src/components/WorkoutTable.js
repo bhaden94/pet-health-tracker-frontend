@@ -2,15 +2,23 @@ import React, { useState, useEffect } from 'react';
 import { withRouter } from "react-router-dom";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Snackbar from "@material-ui/core/Snackbar";
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Button from '@material-ui/core/Button';
 import Alert from "@material-ui/lab/Alert";
 import MaterialTable from "material-table";
 
 const WorkoutTable = ({ history }) => {
     const [workouts, setWorkouts] = useState([])
+    const [rowDataToDelete, setRowDataToDelete] = useState()
 
     const [isLoading, setIsLoading] = useState(false)
     const [showSuccess, setShowSucess] = useState(false);
     const [showAlert, setShowAlert] = useState(false);
+    const [showDeleteDialog, setShowDeleteDialog] = useState(false)
 
 
     const columns = [
@@ -45,13 +53,25 @@ const WorkoutTable = ({ history }) => {
         const requestOptions = {
             method: "DELETE"
         };
-        const res = await fetch(`/api/remove_workout/${rowData.id}`, requestOptions);
+        const res = await fetch(`/api/remove_workout/${rowDataToDelete.id}`, requestOptions);
         fetchWorkouts()
         if (res.status === 200) {
             setShowSucess(true)
         } else {
             setShowAlert(true)
         }
+        setShowDeleteDialog(false)
+        setRowDataToDelete()
+    }
+
+    const deleteDialog = (e, rowData) => {
+        setRowDataToDelete(rowData)
+        setShowDeleteDialog(true)
+    }
+
+    const closeDialog = () => {
+        setRowDataToDelete()
+        setShowDeleteDialog(false)
     }
 
     const actions = [
@@ -63,7 +83,7 @@ const WorkoutTable = ({ history }) => {
         {
             icon: 'delete',
             tooltip: 'Delete',
-            onClick: deleteWorkout
+            onClick: deleteDialog
         }
     ]
     async function fetchWorkouts() {
@@ -97,6 +117,27 @@ const WorkoutTable = ({ history }) => {
                     title="Workouts"
                 />
             }
+            <Dialog
+                open={showDeleteDialog}
+                onClose={closeDialog}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">{"Delete Workout?"}</DialogTitle>
+                <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                    Are you sure you want to delete this workout?
+                </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                <Button onClick={closeDialog} color="primary">
+                    Cancel
+                </Button>
+                <Button onClick={deleteWorkout} color="secondary">
+                    Delete
+                </Button>
+                </DialogActions>
+            </Dialog>
             <Snackbar open={showSuccess} autoHideDuration={5000} onClose={snackBarClose}>
                 <Alert onClose={snackBarClose} severity="success">Sucess!</Alert>
             </Snackbar>

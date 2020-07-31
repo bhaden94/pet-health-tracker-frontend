@@ -7,10 +7,11 @@ import {
     Button,
     Icon,
     MenuItem,
-    ListItemIcon,
     ListItemText,
     CircularProgress,
     Snackbar,
+    ListItemAvatar,
+    Avatar
 } from "@material-ui/core";
 import {
     MuiPickersUtilsProvider,
@@ -165,14 +166,10 @@ const AddModifyForm = (props) => {
                             >
                                 {pets.map((option, index) => (
                                     <MenuItem key={index} value={option.name}>
+                                        <ListItemAvatar>
+                                            <Avatar alt={option.name} src={option.picture_url} />
+                                        </ListItemAvatar>
                                         <ListItemText primary={option.name} />
-                                        <ListItemIcon>
-                                            <img
-                                                style={{ width: "40px" }}
-                                                alt="dog"
-                                                src={option.picture_url}
-                                            />
-                                        </ListItemIcon>
                                     </MenuItem>
                                 ))}
                             </TextField>

@@ -2,12 +2,13 @@ import React, { useState, useEffect } from "react";
 import {
     TextField,
     MenuItem,
-    ListItemIcon,
     ListItemText,
     CircularProgress,
     Paper,
     Tabs,
-    Tab
+    Tab,
+    ListItemAvatar,
+    Avatar
 } from "@material-ui/core";
 import LineChart from './Charts/LineChart'
 import PieChart from './Charts/PieChart'
@@ -99,14 +100,10 @@ const Home = () => {
                         >
                             {pets.map((option, index) => (
                                 <MenuItem key={index} value={option.name}>
+                                    <ListItemAvatar>
+                                        <Avatar alt={option.name} src={option.picture_url} />
+                                    </ListItemAvatar>
                                     <ListItemText primary={option.name} />
-                                    <ListItemIcon>
-                                        <img
-                                            style={{ width: "50px" }}
-                                            alt="dog"
-                                            src={option.picture_url}
-                                        />
-                                    </ListItemIcon>
                                 </MenuItem>
                             ))}
                         </TextField>
