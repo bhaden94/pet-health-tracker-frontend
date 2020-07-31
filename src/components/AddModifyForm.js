@@ -79,7 +79,7 @@ const AddModifyForm = (props) => {
             setBtnHeadingTxt("Update");
             setBtnIcon("update");
         }
-    }, [props]);
+    }, [props, location.state]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -170,7 +170,7 @@ const AddModifyForm = (props) => {
                                             <img
                                                 style={{ width: "40px" }}
                                                 alt="dog"
-                                                src="https://post.medicalnewstoday.com/wp-content/uploads/sites/3/2020/02/322868_1100-800x825.jpg"
+                                                src={option.picture_url}
                                             />
                                         </ListItemIcon>
                                     </MenuItem>

@@ -5,8 +5,9 @@ import {
     ListItemIcon,
     ListItemText,
     CircularProgress,
-    Button,
-    ButtonGroup
+    Paper,
+    Tabs,
+    Tab
 } from "@material-ui/core";
 import LineChart from './Charts/LineChart'
 import PieChart from './Charts/PieChart'
@@ -59,51 +60,76 @@ const Home = () => {
         fetchPets();
     }, []);
 
+    const chartChange = (event, newValue) => {
+        const tabClicked = event.target.innerHTML
+        if (tabClicked === 'Duration') {
+            setSowLine(true)
+            setShowTypePie(false)
+            setShowIntensityPie(false)
+        } else if (tabClicked === 'Types') {
+            setSowLine(false)
+            setShowTypePie(true)
+            setShowIntensityPie(false)
+        } else {
+            setSowLine(false)
+            setShowTypePie(false)
+            setShowIntensityPie(true)
+        }
+        setTab(newValue)
+    }
+
     return (
         <div className="home">
             <h1>Pet Workout Dashboard</h1>
-            {isLoading ? <CircularProgress size={50} color="primary" /> : 
-            <div>
-                <div className="chart-pet">
-                    <TextField
-                        className="pet-input"
-                        inline
-                        select
-                        value={chosenPet ? chosenPet.name : ""}
-                        label="Pet"
-                        required
-                        onChange={(e) =>
-                            setChosenPet(
-                                pets.filter((pet) => pet.name === e.target.value)[0]
-                            )
-                        }
-                        margin="normal"
-                    >
-                        {pets.map((option, index) => (
-                            <MenuItem key={index} value={option.name}>
-                                <ListItemText primary={option.name} />
-                                <ListItemIcon>
-                                    <img
-                                        style={{ width: "40px" }}
-                                        alt="dog"
-                                        src="https://post.medicalnewstoday.com/wp-content/uploads/sites/3/2020/02/322868_1100-800x825.jpg"
-                                    />
-                                </ListItemIcon>
-                            </MenuItem>
-                        ))}
-                    </TextField>
+            {isLoading ? <CircularProgress size={50} color="primary" /> :
+                <div>
+                    <div className="chart-pet">
+                        <TextField
+                            className="pet-input"
+                            select
+                            value={chosenPet ? chosenPet.name : ""}
+                            label="Pet"
+                            required
+                            onChange={(e) =>
+                                setChosenPet(
+                                    pets.filter((pet) => pet.name === e.target.value)[0]
+                                )
+                            }
+                            margin="normal"
+                        >
+                            {pets.map((option, index) => (
+                                <MenuItem key={index} value={option.name}>
+                                    <ListItemText primary={option.name} />
+                                    <ListItemIcon>
+                                        <img
+                                            style={{ width: "50px" }}
+                                            alt="dog"
+                                            src={option.picture_url}
+                                        />
+                                    </ListItemIcon>
+                                </MenuItem>
+                            ))}
+                        </TextField>
+                    </div>
+                    <div className="chart">
+                        <Paper>
+                            <Tabs
+                                value={tab}
+                                onChange={chartChange}
+                                indicatorColor="primary"
+                                textColor="primary"
+                                centered
+                            >
+                                <Tab label="Duration" />
+                                <Tab label="Types" />
+                                <Tab label="Intensity" />
+                            </Tabs>
+                        </Paper>
+                        {showLine && <LineChart currentWorkouts={currentWorkouts} />}
+                        {showTypePie && <PieChart currentWorkouts={currentWorkouts} intensityOrType="type" />}
+                        {showIntensityPie && <PieChart currentWorkouts={currentWorkouts} intensityOrType="intensity" />}
+                    </div>
                 </div>
-                <div className="chart">
-                    <ButtonGroup color="primary" aria-label="outlined primary button group">
-                        <Button>Duration</Button>
-                        <Button>Types</Button>
-                        <Button>Intensity</Button>
-                    </ButtonGroup>
-                    {showLine && <LineChart currentWorkouts={currentWorkouts} />}
-                    {showTypePie && <PieChart currentWorkouts={currentWorkouts} intensityOrType="type" />}
-                    {showIntensityPie && <PieChart currentWorkouts={currentWorkouts} intensityOrType="intensity" />}
-                </div>
-            </div>
             }
         </div>
     );

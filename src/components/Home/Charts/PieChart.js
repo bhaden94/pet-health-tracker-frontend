@@ -2,22 +2,6 @@ import React, {useState, useEffect} from "react";
 
 import { ResponsivePie } from '@nivo/pie'
 
-/*
-[
-  {
-    "id": "rust",
-    "label": "rust",
-    "value": 225,
-    "color": "hsl(148, 70%, 50%)"
-  },
-  {
-    "id": "javascript",
-    "label": "javascript",
-    "value": 274,
-    "color": "hsl(355, 70%, 50%)"
-  },
-]
-*/
 
 const PieChart = ({currentWorkouts, intensityOrType}) => {
     const [graphData, setGraphData] = useState([])

@@ -20,7 +20,7 @@
 
 .form-item > div {
   width: 90%;
-  margin-top: 20px;
+  margin-top: 15px;
 }
 
 .form-slider {
@@ -88,7 +88,7 @@
 }
 
 .chart {
-  height: 50vh;
+  height: 500px;
   margin-left: 25vw;
   margin-right: 25vw;
   margin-top: 50px;
@@ -111,6 +111,11 @@
     margin-left: 8vw;
     margin-right: 8vw;
   }
+
+  .chart {
+    margin-left: 20vw;
+    margin-right: 20vw;
+  }
 }
 
 @media only screen and (max-width: 1100px) {
@@ -123,6 +128,15 @@
     margin-left: 2vw;
     margin-right: 2vw;
   }
+
+  .chart-pet > div {
+    width: 60vw;
+  }
+
+  .chart {
+    margin-left: 10vw;
+    margin-right: 10vw;
+  }
 }
 
 @media only screen and (max-width: 768px) {
@@ -130,11 +144,20 @@
     margin-left: 10vw;
     margin-right: 10vw;
   }
+
+  .chart {
+    margin-left: 2vw;
+    margin-right: 2vw;
+  }
 }
 
 @media only screen and (max-width: 600px) {
   .form {
     margin-left: 2vw;
     margin-right: 2vw;
+  }
+
+  .chart-pet > div {
+    width: 90vw;
   }
 }

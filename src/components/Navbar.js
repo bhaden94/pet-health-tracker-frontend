@@ -25,7 +25,7 @@ const Navbar = ({location}) => {
             <Toolbar>
             <Link className="link" to="/">
                 <ColorButton>
-                    Home
+                    Dashboard
                 </ColorButton>
             </Link>  
             <Link className="link" to="/workouts"> 

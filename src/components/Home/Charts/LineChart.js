@@ -17,6 +17,7 @@ const LineChart = ({currentWorkouts}) => {
             })
             setGraphData([
                 {
+                    id: "",
                     data: xyData
                 }
             ])
@@ -26,7 +27,7 @@ const LineChart = ({currentWorkouts}) => {
     return ( 
         <ResponsiveLine
             data={graphData}
-            margin={{ top: 30, right: 55, bottom: 70, left: 55 }}
+            margin={{ top: 30, right: 55, bottom: 80, left: 55 }}
             xScale={{ type: 'point' }}
             yScale={{ type: 'linear', min: 'auto', max: 'auto', stacked: true, reverse: false }}
             axisTop={null}
@@ -49,8 +50,9 @@ const LineChart = ({currentWorkouts}) => {
                 legendOffset: -40,
                 legendPosition: 'middle'
             }}
+            enableGridX={false}
             colors={{ scheme: 'category10' }}
-            pointSize={10}
+            pointSize={6}
             pointColor={{ from: 'color', modifiers: [] }}
             pointBorderWidth={2}
             pointBorderColor={{ from: 'serieColor' }}
